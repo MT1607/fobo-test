@@ -1,8 +1,8 @@
 'use client';
+import {use} from "react";
 
 import {notFound} from "next/navigation";
 import Image from "next/image";
-import {Separator} from "@/components/ui/separator";
 import {Badge} from "@/components/ui/badge";
 import {getBlogPostById} from "@/dt/fake-blogs";
 import {TableOfContents} from "@/components/TableOfContent";
@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import {mockData} from "@/dt/fake-dt";
 import {useClientMediaQuery} from "@/lib/isMobile";
 
 // Remove the export from generateMetadata since it can't be exported from a client component
@@ -32,8 +31,10 @@ import {useClientMediaQuery} from "@/lib/isMobile";
 // }
 
 // Hàm render nội dung
-const renderContent = (content: any) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const renderContent = ({content}: { content: any }) => {
     if (typeof content === "string") return <p className="mb-4">{content}</p>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return content.map((item: any, index: number) => {
         switch (item.type) {
             case "paragraph":
@@ -86,7 +87,8 @@ const renderContent = (content: any) => {
         }
     });
 };
-// Hàm render section đệ quy
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const renderSection = (section: any) => {
     // Fix: Use proper type for dynamic heading tags
     const HeadingTag = `h${section.level}` as ElementType;
@@ -102,15 +104,17 @@ const renderSection = (section: any) => {
             }`}>
                 {section.title}
             </HeadingTag>
-            {renderContent(section.content)}
+            {renderContent({content: section.content})}
 
             {section.subsections?.map((subsection: unknown) => renderSection(subsection))}
         </section>
     );
 };
 
-export default function DetailBlog({params}: { params: { id: string } }) {
-    const post = getBlogPostById(parseInt(params.id));
+export default function DetailBlog({params}: { params: Promise<{ id: string }> }) {
+    const {id} = use(params);
+
+    const post = getBlogPostById(parseInt(id));
     const isMobile = useClientMediaQuery('(max-width: 600px)')
     if (!post) {
         notFound();
@@ -127,11 +131,11 @@ export default function DetailBlog({params}: { params: { id: string } }) {
                     <div className={"sticky top-20 flex flex-col items-center gap-4 md:col-span-1"}>
                         <p className={"font-bold"}>Chia sẻ</p>
                         <div className="flex flex-col items-center gap-2">
-                            <img className="w-10 h-10" src="/zalo.svg" alt="zalo"/>
-                            <img className="w-10 h-10" src="/facebook.svg" alt="facebook"/>
-                            <img className="w-10 h-10" src="/x.svg" alt="x"/>
-                            <img className="w-10 h-10" src="/linkedn.svg" alt="linkedn"/>
-                            <img className="w-10 h-10" src="/reddit.svg" alt="reddit"/>
+                            <Image width={40} height={40} className="w-10 h-10" src="/zalo.svg" alt="zalo"/>
+                            <Image width={40} height={40} className="w-10 h-10" src="/facebook.svg" alt="facebook"/>
+                            <Image width={40} height={40} className="w-10 h-10" src="/x.svg" alt="x"/>
+                            <Image width={40} height={40} className="w-10 h-10" src="/linkedn.svg" alt="linkedn"/>
+                            <Image width={40} height={40} className="w-10 h-10" src="/reddit.svg" alt="reddit"/>
                         </div>
                     </div>}
                 <div className="w-full md:col-span-4 m-3">

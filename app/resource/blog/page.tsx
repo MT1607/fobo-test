@@ -13,7 +13,6 @@ import {
     BreadcrumbList, BreadcrumbPage,
     BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import Link from "next/link";
 import {useClientMediaQuery} from "@/lib/isMobile";
 
 const ITEMS_PER_PAGE = 6;
@@ -72,13 +71,13 @@ const BlogPage = () => {
                             <BreadcrumbList>
                                 <BreadcrumbItem>
                                     <BreadcrumbLink>
-                                        <Link href="/">Home</Link>
+                                        <div onClick={() => router.push("/")}>Trang chu</div>
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator/>
                                 <BreadcrumbItem>
                                     <BreadcrumbLink>
-                                        <Link href="/resource">Tai nguyen</Link>
+                                        <div onClick={() => router.push("/resource")}>Tai nguyen</div>
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator/>
