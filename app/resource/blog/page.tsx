@@ -110,10 +110,10 @@ const BlogPage = () => {
 
             <div className="w-3/4 mx-auto">
                 <div className={"grid grid-cols-3 gap-4"}>
-                    <div className="col-span-2 p-4">
+                    <div className={`${isMobile ? "col-span-3" : "col-span-2 p-4"}`}>
                         <p className="font-extrabold text-4xl mb-5">Tất cả bài viết</p>
                         <img src="/banner.svg" alt="banner" className={"w-full"}/>
-                        <div className="grid grid-cols-2 gap-2 mt-2">
+                        <div className={`${isMobile ? "grid-cols-1" : "grid-cols-2 gap-2"} grid mt-2`}>
                             {currentData.map((post) => (
                                 <div key={post.id} className="col-span-1 border rounded-2xl p-2 overflow-hidden">
                                     <img src="/banner-card.svg" alt="banner-card" className="w-full h-auto"/>
@@ -140,9 +140,8 @@ const BlogPage = () => {
                                     </div>
                                 </div>))}
                         </div>
-
                     </div>
-                    <div className={"col-span-1 p-4"}>
+                    {isMobile ? <></> : <div className={"col-span-1 p-4"}>
                         <p className="font-bold text-2xl mb-5">Tìm kiếm</p>
                         <div
                             className="w-full rounded-[12px] flex items-center justify-between px-6 py-3 border border-gray-300 bg-white">
@@ -170,8 +169,7 @@ const BlogPage = () => {
                             <img src={"/right-banner-1.svg"} alt={"right-banner"} className={"w-full mt-10"}/>
                             <img src={"/right-banner-2.svg"} alt={"right-banner"} className={"w-full mt-10"}/>
                         </div>
-                    </div>
-
+                    </div>}
                 </div>
                 <PaginationCustom currentPage={currentPage} setCurrentPage={setCurrentPage}
                                   totalPages={totalPages}/>
